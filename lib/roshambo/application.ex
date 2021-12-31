@@ -15,7 +15,11 @@ defmodule Roshambo.Application do
       # Start the PubSub system
       {Phoenix.PubSub, name: Roshambo.PubSub},
       # Start the Endpoint (http/https)
-      RoshamboWeb.Endpoint
+      RoshamboWeb.Endpoint,
+      # Game Registry
+      {Registry, keys: :unique, name: Roshambo.GameRegistry},
+      # Game Dynamic Supervisor
+      {DynamicSupervisor, strategy: :one_for_one, name: Roshambo.GameSupervisor}
       # Start a worker by calling: Roshambo.Worker.start_link(arg)
       # {Roshambo.Worker, arg}
     ]
