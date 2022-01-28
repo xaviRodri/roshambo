@@ -47,7 +47,7 @@ defmodule Roshambo.Game.ScoreTest do
       ],
       id: "1234",
       mode: Mode.get(:classic),
-      players: {%Player{id: "1", name: "P1"}, %Player{id: "2", name: "P2"}},
+      players: {%Player{id: "1"}, %Player{id: "2"}},
       type: Type.get(:best_of_3)
     }
   end
@@ -62,7 +62,7 @@ defmodule Roshambo.Game.ScoreTest do
       ],
       id: "1234",
       mode: Mode.get(:classic),
-      players: {%Player{id: "1", name: "P1"}, %Player{id: "2", name: "P2"}},
+      players: {%Player{id: "1"}, %Player{id: "2"}},
       type: Type.get(:best_of_3)
     }
   end
@@ -72,7 +72,7 @@ defmodule Roshambo.Game.ScoreTest do
       hands: [%Hand{p1_pick: :rock, p2_pick: :paper, result: :p2}],
       id: "1234",
       mode: Mode.get(:classic),
-      players: {%Player{id: "1", name: "P1"}, %Player{id: "2", name: "P2"}},
+      players: {%Player{id: "1"}, %Player{id: "2"}},
       score: %Score{p1_score: 0, p2_score: 1, winner: :p2},
       type: Type.get(:best_of_1)
     }

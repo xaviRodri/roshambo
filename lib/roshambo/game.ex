@@ -40,9 +40,9 @@ defmodule Roshambo.Game do
     end
   end
 
-  def handle_call({:add_player, player_name}, _from, state) do
-    case Player.add(state, player_name) do
-      {:ok, game} -> {:reply, {:ok, game}, game}
+  def handle_call(:add_player, _from, state) do
+    case Player.add(state) do
+      {:ok, game, position} -> {:reply, {:ok, game, position}, game}
       {:error, error} -> {:reply, {:error, error}, state}
     end
   end

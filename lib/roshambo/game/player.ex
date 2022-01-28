@@ -1,30 +1,27 @@
 defmodule Roshambo.Game.Player do
   alias Roshambo.Game
 
-  @enforce_keys [:id, :name]
-  defstruct [:id, :name]
-  @type t :: %__MODULE__{id: binary(), name: binary()}
+  @enforce_keys [:id]
+  defstruct [:id]
+  @type t :: %__MODULE__{id: binary()}
 
   @doc """
   Adds a new player to a game.
 
-  In order to do it, receives a player name and creates a new player that will be
-  introduced in the provided game.
+  In order to do it, creates a new player that will be introduced in the provided game.
 
-  If the player name is not valid or the game is full, it will
-  return an error.
+  If the player is not valid or the game is full, it will return an error.
   """
   @spec add(Game.t(), binary() | __MODULE__.t()) ::
           {:ok, Game.t()} | {:error, :already_in} | {:error, :is_full}
 
-  def add(%Game{} = game, player_name) when is_binary(player_name),
-    do: add(game, %__MODULE__{id: Ecto.UUID.autogenerate(), name: player_name})
+  def add(%Game{} = game), do: add(game, %__MODULE__{id: Ecto.UUID.autogenerate()})
 
   def add(%Game{players: {nil, p2}} = game, %__MODULE__{} = player),
-    do: {:ok, %{game | players: {player, p2}}}
+    do: {:ok, %{game | players: {player, p2}}, :p1}
 
   def add(%Game{players: {p1, nil}} = game, %__MODULE__{} = player),
-    do: {:ok, %{game | players: {p1, player}}}
+    do: {:ok, %{game | players: {p1, player}}, :p2}
 
   def add(%Game{players: {_p1, _p2}} = _game, %__MODULE__{} = _player),
     do: {:error, :is_full}

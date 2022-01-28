@@ -26,8 +26,8 @@ defmodule Roshambo do
     end
   end
 
-  def add_random_player(game_id, player_name) do
-    game_id |> get_game_pid() |> GenServer.call({:add_player, player_name})
+  def add_random_player(game_id) do
+    game_id |> get_game_pid() |> GenServer.call(:add_player)
   end
 
   def get_game_pid(game_id),

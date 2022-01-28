@@ -45,12 +45,15 @@ defmodule Roshambo.GameTest do
     setup :start_game
 
     test "Adds a player successfuly to the game", %{game_pid: game_pid} do
-      player = %Game.Player{id: Ecto.UUID.autogenerate(), name: "Player"}
-      assert {:ok, %Game{players: {^player, _}}} = GenServer.call(game_pid, {:add_player, player})
+      assert {:ok, %Game{players: {%Game.Player{}, _}}, _position} =
+               GenServer.call(game_pid, :add_player)
     end
 
     test "Fails to add a player", %{game_pid: game_pid} do
-      assert {:error, _} = GenServer.call(game_pid, {:add_player, :invalid})
+      GenServer.call(game_pid, :add_player)
+      GenServer.call(game_pid, :add_player)
+
+      assert {:error, _} = GenServer.call(game_pid, :add_player)
     end
   end
 
@@ -58,8 +61,7 @@ defmodule Roshambo.GameTest do
     setup :start_game
 
     test "Removes a player successfuly from the game", %{game_pid: game_pid} do
-      player = %Game.Player{id: Ecto.UUID.autogenerate(), name: "Player"}
-      {:ok, %Game{players: {^player, _}}} = GenServer.call(game_pid, {:add_player, player})
+      {:ok, %Game{players: {player, _}}, _position} = GenServer.call(game_pid, :add_player)
 
       assert {:ok, %Game{players: {nil, _}}} =
                GenServer.call(game_pid, {:remove_player, player.id})
@@ -74,8 +76,7 @@ defmodule Roshambo.GameTest do
     setup :start_game
 
     test "Adds successfuly a pick to the current hand", %{game_pid: game_pid} do
-      player = %Game.Player{id: Ecto.UUID.autogenerate(), name: "Player"}
-      {:ok, %Game{players: {^player, _}}} = GenServer.call(game_pid, {:add_player, player})
+      {:ok, %Game{players: {_player, _}}, _position} = GenServer.call(game_pid, :add_player)
 
       assert {:ok, %Game{}} = GenServer.call(game_pid, {:pick, :p1, @valid_pick})
       assert {:ok, %Game{}} = GenServer.call(game_pid, {:pick, :p2, @valid_pick})
