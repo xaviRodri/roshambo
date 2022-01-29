@@ -30,8 +30,14 @@ defmodule Roshambo do
     game_id |> get_game_pid() |> GenServer.call(:add_player)
   end
 
-  def get_game_pid(game_id),
-    do: Registry.lookup(Roshambo.GameRegistry, game_id) |> List.first() |> elem(0)
+  def get_game_pid(game_id) do
+    case Registry.lookup(Roshambo.GameRegistry, game_id) do
+      [{pid, _}] -> pid
+      _ -> nil
+    end
+  end
+
+  def game_exists?(game_id), do: game_id |> get_game_pid() |> is_pid()
 
   def get_game(game_id), do: game_id |> get_game_pid() |> GenServer.call(:get_game)
 

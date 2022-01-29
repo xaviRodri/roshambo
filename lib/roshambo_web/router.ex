@@ -1,23 +1,37 @@
 defmodule RoshamboWeb.Router do
   use RoshamboWeb, :router
+  import Phoenix.LiveView.Router
 
   pipeline :browser do
-    plug :accepts, ["html"]
-    plug :fetch_session
-    plug :fetch_live_flash
-    plug :put_root_layout, {RoshamboWeb.LayoutView, :root}
-    plug :protect_from_forgery
-    plug :put_secure_browser_headers
+    plug(:accepts, ["html"])
+    plug(:fetch_session)
+    plug(:fetch_live_flash)
+    plug(:put_root_layout, {RoshamboWeb.LayoutView, :root})
+    plug(:protect_from_forgery)
+    plug(:put_secure_browser_headers)
   end
 
   pipeline :api do
-    plug :accepts, ["json"]
+    plug(:accepts, ["json"])
+  end
+
+  pipeline :game do
+    plug(RoshamboWeb.Plugs.GamePlug)
   end
 
   scope "/", RoshamboWeb do
-    pipe_through :browser
+    pipe_through(:browser)
 
-    get "/", PageController, :index
+    get("/", PageController, :index)
+
+    get("/new", NewGameController, :new)
+    post("/create", NewGameController, :create)
+  end
+
+  scope "/play/", RoshamboWeb do
+    pipe_through([:browser, :game])
+
+    get("/:game_id", PlayController, :play)
   end
 
   # Other scopes may use custom stacks.
@@ -36,9 +50,9 @@ defmodule RoshamboWeb.Router do
     import Phoenix.LiveDashboard.Router
 
     scope "/" do
-      pipe_through :browser
+      pipe_through(:browser)
 
-      live_dashboard "/dashboard", metrics: RoshamboWeb.Telemetry
+      live_dashboard("/dashboard", metrics: RoshamboWeb.Telemetry)
     end
   end
 end
