@@ -1,0 +1,15 @@
+<h2>How do you wish to play?</h2>
+
+<%= form_for :game, Routes.new_game_path(@conn, :create), fn f -> %>
+  <label> 
+    Mode
+    <%= select f, :mode, @modes %>
+  </label>
+  
+  <label> 
+    Type
+    <%= select f, :type, @types %>
+  </label>
+
+  <%= submit "Start playing!" %>
+<% end %>
