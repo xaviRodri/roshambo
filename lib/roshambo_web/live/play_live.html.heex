@@ -1,1 +1,8 @@
-<p> Playing to game "<%= @game_id %>" with user "<%= @player %>" </p>
+<p> Playing game "<%= @game_id %>" with user "<%= @player %>" </p>
+
+<.live_component module={RoshamboWeb.UserScoreComponent} id={@player} game_id={@game_id} />
+<.live_component module={RoshamboWeb.UserScoreComponent} id={if @player == :p1, do: :p2, else: :p1} game_id={@game_id} />
+
+
+<button class="button" phx-click="pick-rock"> ROCK </button>
+<button class="button" phx-click="pick-paper"> PAPER </button>
