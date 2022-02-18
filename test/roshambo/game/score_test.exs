@@ -8,7 +8,7 @@ defmodule Roshambo.Game.ScoreTest do
     test "Updates the game's score when no winner is set yet" do
       game = build_non_finished_game()
 
-      assert %Game{score: %Score{p1_score: 1, p2_score: 1}} = Score.update(game)
+      assert %Game{score: %Score{p1: 1, p2: 1}} = Score.update(game)
     end
 
     test "Returns the provided game if the game has already finished" do
@@ -73,7 +73,7 @@ defmodule Roshambo.Game.ScoreTest do
       id: "1234",
       mode: Mode.get(:classic),
       players: {%Player{id: "1"}, %Player{id: "2"}},
-      score: %Score{p1_score: 0, p2_score: 1, winner: :p2},
+      score: %Score{p1: 0, p2: 1, winner: :p2},
       type: Type.get(:best_of_1)
     }
   end

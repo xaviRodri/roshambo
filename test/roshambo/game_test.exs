@@ -22,7 +22,7 @@ defmodule Roshambo.GameTest do
                 id: ^game_id,
                 mode: %Game.Mode{name: ^mode},
                 players: {nil, nil},
-                score: %Game.Score{p1_score: 0, p2_score: 0, winner: nil},
+                score: %Game.Score{p1: 0, p2: 0, winner: nil},
                 type: %Game.Type{name: ^type}
               }} = Game.init(%{id: game_id, mode: mode, type: type})
     end
