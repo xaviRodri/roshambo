@@ -1,8 +1,23 @@
-<p> Playing game "<%= @game_id %>" with user "<%= @player %>" </p>
+<p> Playing game "<%= @game_id %>". Assigned player "<%= @player %>" </p>
 
+<div class="phx-hero row">
+<div class="column">
 <.live_component module={RoshamboWeb.UserScoreComponent} id={@player} game_id={@game_id} />
+</div>
+<div class="column">
 <.live_component module={RoshamboWeb.UserScoreComponent} id={if @player == :p1, do: :p2, else: :p1} game_id={@game_id} />
+</div>
+</div>
 
+<div class="phx-hero">
+  <%= if @current_picks[@player] do %> 
+    <p> Your current pick is <%= @current_picks[@player] %> </p>
+  <% end %>
+  <button phx-click="pick" phx-value-pick="rock"> 🪨 </button>
+  <button phx-click="pick" phx-value-pick="paper"> 📄 </button>
+  <button phx-click="pick" phx-value-pick="scissors"> ✂️ </button>
+</div>
 
-<button class="button" phx-click="pick-rock"> ROCK </button>
-<button class="button" phx-click="pick-paper"> PAPER </button>
+<%= if @winner do %>
+  <div class="phx-hero"> <h2> Player <%= @winner %> wins! </h2> </div>
+<% end %>

@@ -14,4 +14,8 @@ defmodule RoshamboWeb.UserScoreComponent do
 
     {:ok, assign(socket, Map.merge(assigns, %{score: Map.get(score, player)}))}
   end
+
+  def update(%{id: player, score: score} = assigns, socket) do
+    {:ok, assign(socket, Map.merge(assigns, %{score: Map.get(score, player)}))}
+  end
 end

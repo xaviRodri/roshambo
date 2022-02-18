@@ -86,6 +86,7 @@ defmodule Roshambo.Game do
     |> resolve_current_hand()
     |> update_score()
     |> set_winner()
+    |> broadcast_game_update()
   end
 
   defp resolve_current_hand(%__MODULE__{current_hand: %Hand{} = hand} = game) do
@@ -97,4 +98,9 @@ defmodule Roshambo.Game do
 
   defp update_score(%__MODULE__{} = game), do: Score.update(game)
   defp set_winner(%__MODULE__{} = game), do: Score.set_winner(game)
+
+  defp broadcast_game_update(%__MODULE__{id: game_id} = game) do
+    RoshamboWeb.Endpoint.broadcast("game-#{game_id}", "game_update", game)
+    game
+  end
 end
